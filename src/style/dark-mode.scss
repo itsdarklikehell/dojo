@@ -1,0 +1,247 @@
+
+// Dark Mode Variables
+$dark-background: #1a1a2e;
+$dark-foreground: #e0e0e0;
+$dark-header-background: #16213e;
+$dark-header-foreground: #e0e0e0;
+$dark-top-row-background: #0f3460;
+$dark-sidebar-background: #16213e;
+$dark-highlight: #e94560;
+$dark-highlight01: rgba(233, 69, 96, 0.1);
+$dark-highlight02: rgba(233, 69, 96, 0.2);
+$dark-highlight05: rgba(233, 69, 96, 0.5);
+$dark-control-border: #0f3460;
+$dark-control-border-02: rgba(15, 52, 96, 0.2);
+$dark-control-border-05: rgba(15, 52, 96, 0.5);
+$dark-card-background: #16213e;
+$dark-card-background-outer: #0f3460;
+
+// Dark mode mixin
+@mixin dark-mode {
+  @media (prefers-color-scheme: dark) {
+    @content;
+  }
+
+  .dark-mode & {
+    @content;
+  }
+}
+
+// Apply dark mode to root elements
+@include dark-mode {
+  html,
+  body,
+  #root,
+  .dojo {
+    background-color: $dark-background;
+    color: $dark-foreground;
+  }
+
+  .fixed-top {
+    background-color: $dark-background;
+
+    &::after {
+      background: linear-gradient(rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0));
+    }
+  }
+
+  .app-name {
+    color: $dark-foreground;
+  }
+
+  // Cards
+  .card {
+    background-color: $dark-card-background;
+    border-color: $dark-control-border;
+  }
+
+  .card-outer {
+    background-color: $dark-card-background-outer;
+  }
+
+  // Inputs
+  input[type=text],
+  input[type=color],
+  textarea {
+    background-color: $dark-sidebar-background;
+    color: $dark-foreground;
+    border-color: $dark-control-border;
+
+    &::placeholder {
+      color: rgba(224, 224, 224, 0.5);
+    }
+
+    &:hover,
+    &:focus {
+      border-color: $dark-highlight;
+    }
+  }
+
+  // Links
+  a {
+    background-color: $dark-highlight01;
+    color: $dark-highlight;
+
+    &:visited {
+      color: $dark-highlight;
+    }
+
+    &:hover {
+      background-color: $dark-highlight02;
+    }
+  }
+
+  // Tables
+  table {
+    th {
+      background-color: $dark-header-background;
+      color: $dark-header-foreground;
+    }
+
+    td {
+      border-color: $dark-control-border;
+    }
+
+    tr:nth-child(even) {
+      background-color: $dark-sidebar-background;
+    }
+  }
+
+  // Buttons
+  .btn {
+    background-color: $dark-header-background;
+    color: $dark-header-foreground;
+    border-color: $dark-control-border;
+
+    &:hover {
+      background-color: $dark-top-row-background;
+    }
+
+    &.primary {
+      background-color: $dark-highlight;
+      color: #ffffff;
+
+      &:hover {
+        background-color: lighten($dark-highlight, 10%);
+      }
+    }
+  }
+
+  // Sidebar
+  .sidebar {
+    background-color: $dark-sidebar-background;
+  }
+
+  // Top row
+  .top-row {
+    background-color: $dark-top-row-background;
+  }
+
+  // Header
+  .header {
+    background-color: $dark-header-background;
+    color: $dark-header-foreground;
+  }
+
+  // Modals
+  .modal {
+    background-color: $dark-card-background;
+    color: $dark-foreground;
+  }
+
+  .modal-overlay {
+    background-color: rgba(0, 0, 0, 0.7);
+  }
+
+  // Scrollbars
+  ::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: $dark-sidebar-background;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: $dark-control-border;
+    border-radius: 4px;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: $dark-highlight;
+  }
+}
+
+// Dark mode toggle button
+.dark-mode-toggle {
+  position: fixed;
+  top: 1rem;
+  right: 1rem;
+  z-index: 1000;
+  background: $dark-header-background;
+  color: $dark-header-foreground;
+  border: none;
+  border-radius: 50%;
+  width: 48px;
+  height: 48px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+  transition: all 0.3s ease;
+
+  &:hover {
+    background: $dark-highlight;
+    transform: scale(1.1);
+  }
+
+  svg {
+    width: 24px;
+    height: 24px;
+    fill: currentColor;
+  }
+}
+
+// Responsive improvements
+@media (max-width: 768px) {
+  .sidebar {
+    position: fixed;
+    left: -280px;
+    top: 0;
+    bottom: 0;
+    width: 280px;
+    z-index: 100;
+    transition: left 0.3s ease;
+  }
+
+  .sidebar.open {
+    left: 0;
+  }
+
+  .main-content {
+    margin-left: 0;
+  }
+}
+
+// Focus styles for accessibility
+*:focus {
+  outline: 2px solid $dark-highlight;
+  outline-offset: 2px;
+}
+
+// Print styles
+@media print {
+  .navbar,
+  .sidebar,
+  .btn,
+  .dark-mode-toggle {
+    display: none !important;
+  }
+
+  body {
+    background: white;
+    color: black;
+  }
+}
